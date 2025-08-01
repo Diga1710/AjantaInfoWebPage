@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Caves Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #222;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 32px;
+            justify-content: center;
+        }
+        .gallery img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            text-align: center;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Caves Gallery</h1>
+    <div class="gallery">
+        <img src="ajantaov\1.jpg" alt="Cave 1">
+        <img src="ajantaov\2.jpg" alt="Cave 2">
+        <img src="ajantaov\3.jpg" alt="Cave 3">
+        <img src="ajantaov\4.jpg" alt="Cave 4">
+        <img src="ajantaov\5.jpg" alt="Cave 5">
+        <img src="ajantaov\6.jpg" alt="Cave 6">
+        <img src="ajantaov\7.jpg" alt="Cave 7">
+        <img src="ajantaov\8.jpg" alt="Cave 8">
+    </div>
+</body>
+<footer style="text-align: center; padding: 20px; background-color: #4b2e83; color: white;">
+    <p>© 2025 Ajanta Caves Project Of MCA. All rights reserved.</p> 
+</footer>
+</html>
