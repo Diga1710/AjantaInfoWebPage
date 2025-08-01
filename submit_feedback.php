@@ -18,14 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $feedback = $_POST['feedback'];
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO feedbackform (Name, email, Feedback) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $name, $email, $feedback); // "s" for string
+    $stmt = $conn->prepare("INSERT INTO feedbackform (Name, email, Feedback) VALUES ('$name', '$email', '$feedback')");
+    
 
     // Execute and check
-    if ($stmt->execute()) {
+    if ($conn->query($stmt)===TRUE) {
         echo "Feedback submitted successfully!";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: " . $conn->error;
     }
 
     $stmt->close();
