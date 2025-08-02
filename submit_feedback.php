@@ -1,12 +1,6 @@
 <?php
-// Database configuration
-$host = "Mysql@localhost:3306";
-$db   = "AjantaFeedbacks";
-$user = "root";
-$pass = "Pass@123";
-
 // Create connection
-$conn = new mysqli($host, $user, $pass, $db);
+$conn = new mysqli('localhost', 'root','', 'AjantaFeedbacks');
 
 // Check connection
 if ($conn->connect_error) {
@@ -18,14 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $feedback = $_POST['feedback'];
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO feedbackform (Name, email, Feedback) VALUES ('$name', '$email', '$feedback')");
-    
+    $stmt = $conn->prepare("INSERT INTO feedbackform (Name, email, Feedback) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $name, $email, $feedback); // "s" for string
 
     // Execute and check
-    if ($conn->query($stmt)===TRUE) {
+    if ($stmt->execute()) {
         echo "Feedback submitted successfully!";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 
     $stmt->close();
@@ -33,3 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn->close();
 // Now you can use $conn to interact with the database
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback Submission</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 600px; margin: auto; }
+        h2 { color: #4b2e83; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Feedback Submission</h2>
+        <p>Your feedback has been submitted successfully!</p>
+        <a href="feedback.html">Back to Feedback Form</a>
+    </div>
+</body>
+</html>
