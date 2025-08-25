@@ -1,9 +1,182 @@
-<html>
-  <body>
-    <div>
-      <form>
-        hello
-      </form>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login with Fake SMS OTP (Popup)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .message {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Login</h2>
+  
+  <!-- Step 1: Login form -->
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+    <button id="showRegister" style="margin-top: 10px;">Register</button>
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <!-- Registration form (hidden initially) -->
+  <form id="registerForm" style="display: none;">
+    <input type="text" id="regUsername" placeholder="New Username" required>
+    <input type="password" id="regPassword" placeholder="New Password" required>
+    <input type="text" id="regMobile" placeholder="Mobile Number" required>
+    <button type="submit">Register</button>
+    <button type="button" id="cancelRegister" style="margin-top:8px;background:#6c757d;">Cancel</button>
+  </form>
+</div>
+
+<!-- ...existing code... -->
+<script>
+  // Predefined users
+  const users = [
+    { username: "S-M664", password: "Diga@1710", mobile: "9665827172" }
+  ];
+
+  // Allowed mobile numbers (admin panel list)
+  const allowedMobiles = ["9665827172"];
+
+  let isAuthenticated = true;
+
+  // Login form submit
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const message = document.getElementById("message");
+
+    const user = users.find(user => user.username === username && user.password === password);
+    if (user) {
+      isAuthenticated = true;
+      message.textContent = "Login successful!";
+      message.className = "message success";
+      setTimeout(() => {
+          window.location.href = "https://github.com/Diga1710/AjantaInfoWebPage/edit/main";
+          }, 1000);
+    } else {
+      message.textContent = "Invalid username or password.";
+      message.className = "message error";
+    }
+  });
+
+  // Show registration form
+  document.getElementById("showRegister").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.getElementById("registerForm").style.display = "block";
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("message").textContent = "";
+  });
+
+  // Cancel registration
+  document.getElementById("cancelRegister").addEventListener("click", function() {
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("message").textContent = "";
+  });
+
+  // Registration form submit
+  document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      document.getElementById("message").textContent = "Only authenticated users can register new users.";
+      document.getElementById("message").className = "message error";
+      return;
+    }
+    const regUsername = document.getElementById("regUsername").value.trim();
+    const regPassword = document.getElementById("regPassword").value.trim();
+    const regMobile = document.getElementById("regMobile").value.trim();
+    const message = document.getElementById("message");
+
+    if (users.some(user => user.username === regUsername)) {
+      message.textContent = "Username already exists.";
+      message.className = "message error";
+      return;
+    }
+
+    if (!allowedMobiles.includes(regMobile)) {
+      alert("Invalid mobile number. Please contact admin.");
+      message.textContent = "Mobile number not allowed.";
+      message.className = "message error";
+      return;
+    }
+
+    if (users.some(user => user.mobile === regMobile)) {
+      message.textContent = "Mobile number already registered.";
+      message.className = "message error";
+      return;
+    }
+
+    // Store registration data in users list
+    users.push({ username: regUsername, password: regPassword, mobile: regMobile });
+    message.textContent = "Registration successful! Please login with your new credentials.";
+    message.className = "message success";
+    document.getElementById("registerForm").reset();
+
+    setTimeout(() => {
+      document.getElementById("registerForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      message.textContent = "";
+    }, 2000);
+  });
+</script>
+<!-- ...existing code... -->
+
+</body>
 </html>
